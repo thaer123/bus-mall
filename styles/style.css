@@ -1,6 +1,7 @@
 body {
     background-color: blue;
     text-align: center
+    
   }
   /* maintain picture aspect ratio */
   img { height: 250px;
@@ -10,7 +11,7 @@ body {
   }
   p{
     color: yellow;
-    font-size: 32px;
+    font-size: 31px;
 
   }
   
