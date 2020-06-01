@@ -1,7 +1,8 @@
 'use strict';
 
 //global variables:
-var ctx = document.getElementById("main-content");
+// var ctx = document.getElementById("main-content");
+var ctx = document.getElementById("myChart").getContext('2d');
 var totalClicks = 0; // clicks on images
 var firstImg = document.getElementById('first');
 var secondImg = document.getElementById('second');
@@ -104,17 +105,56 @@ randomImage();
 //generate a string for every object
 function displayResults() {
 
-var ul1=document.getElementById('result');
-for (var i = 0; i < allProducts.length; i++) {
-var li=document.createElement('li');
-li.textContent= `${allProducts[i].name} has ${allProducts[i].views} views and ${allProducts[i].votes} clicks`;
-ul1.append(li);
+// var ul1=document.getElementById('result');
+// for (var i = 0; i < allProducts.length; i++) {
+// var li=document.createElement('li');
+// li.textContent= `${allProducts[i].name} has ${allProducts[i].views} views and ${allProducts[i].votes} clicks`;
+// ul1.append(li);
 
-  }
-  
+//   }
+
+var names = [];
+var votes = [];
+var views=[];
+for (var i = 0; i < allProducts.length; i++) {
+  names.push(allProducts[i].name);
+  votes.push(allProducts[i].votes);
+  votes.push(allProducts[i].views);
 }
 
- // 129-156
+
+
+
+
+var chartConfig = {
+  type: 'bar',
+  data: {
+    labels: names,
+    datasets: [{
+      label: '# of votes',
+      data: votes,
+      
+      // labels:'# of clicks',
+      // data:views,
+      // backgroundColor: colors,
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+};
+
+return new Chart(ctx, chartConfig);
+}
+
+
+
 //add event listeners
 firstImg.addEventListener('click', handleImageClick);
 secondImg.addEventListener('click', handleImageClick);
