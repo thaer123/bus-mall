@@ -24,9 +24,18 @@ this.votes=0;
   var cTwo = Math.floor(Math.random() * 255);
   var cThree = Math.floor(Math.random() * 255);
 
+  this.bgColor = `rgba(${cOne}, ${cTwo}, ${cThree}, 0.2)`;
   allProducts.push(this);  
 }
+// Creating local storage/////////////////////////////////////////////////////
+function createLocalStorage(){
+  var stringifiedImageArray = JSON.stringify(productVotes);
+  localStorage.setItem('store votes', votes);
+}
 
+if (localStorage.productVotes) { //Is there a truthy value on the key in empty storage?
+  allProducts = JSON.parse(localStorage.getItem('productVotes'));//look for the key 'produc'
+}else{
   new Product('bag', './assets/bag.jpg');
   new Product('banana', './assets/banana.jpg');
   new Product('bathroom', './assets/bathroom.jpg');
@@ -47,7 +56,7 @@ this.votes=0;
   new Product('usb', './assets/usb.gif');
   new Product('water-can', './assets/water-can.jpg');
   new Product('wine-glass', './assets/wine-glass.jpg');
-
+}
 
 //create a random image function:
 function randomImage() {
@@ -87,6 +96,9 @@ function randomImage() {
     secondImg.removeEventListener('click', handleImageClick);
     thirdImg.removeEventListener('click', handleImageClick);
     displayResults(); //call result
+
+    localStorage.setItem('productVotes', JSON.stringify(allProducts)); //is there a truthy value on the key ('productVotes') in empty storage?
+  
   }
 
 }
@@ -95,6 +107,7 @@ function handleImageClick(event) {
   for (var i = 0; i < allProducts.length; i++) {
     if (event.target.alt === allProducts[i].name) {
       allProducts[i].votes++;
+      // createLocalStorage();// creat locla storage for votes
     }
   }
   
@@ -115,11 +128,11 @@ function displayResults() {
 
 var names = [];
 var votes = [];
-var views=[];
+var colors=[];
 for (var i = 0; i < allProducts.length; i++) {
   names.push(allProducts[i].name);
   votes.push(allProducts[i].votes);
-  votes.push(allProducts[i].views);
+  colors.push(allProducts[i].bgColor);
 }
 
 
@@ -136,7 +149,7 @@ var chartConfig = {
       
       // labels:'# of clicks',
       // data:views,
-      // backgroundColor: colors,
+      backgroundColor: colors,
     }]
   },
   options: {
@@ -159,3 +172,4 @@ return new Chart(ctx, chartConfig);
 firstImg.addEventListener('click', handleImageClick);
 secondImg.addEventListener('click', handleImageClick);
 thirdImg.addEventListener('click', handleImageClick);
+//  localStorage();
